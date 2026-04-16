@@ -951,7 +951,7 @@ button { font: inherit; cursor: pointer; border: 0; background: transparent; col
 }
 .clip video {
   width: 100%;
-  aspect-ratio: 9 / 16;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
   background: #000;
 }
@@ -970,7 +970,7 @@ button { font: inherit; cursor: pointer; border: 0; background: transparent; col
 .section--about { }
 .about {
   display: grid;
-  grid-template-columns: 360px 1fr;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
   gap: clamp(32px, 5vw, 72px);
   align-items: start;
 }
@@ -999,8 +999,9 @@ button { font: inherit; cursor: pointer; border: 0; background: transparent; col
 }
 .about__portrait img {
   width: 100%;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
+  object-position: center 30%;
   background: #000;
   filter: saturate(.9) contrast(1.05);
 }
@@ -1217,7 +1218,7 @@ button { font: inherit; cursor: pointer; border: 0; background: transparent; col
   .hero__right { order: -1; max-width: 560px; }
   .features { grid-template-columns: 1fr 1fr; }
   .devices  { grid-template-columns: 1fr 1fr; }
-  .about    { grid-template-columns: 260px 1fr; }
+  .about    { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
   .flow     { flex-wrap: wrap; gap: 16px; justify-content: center; }
   .flow__node { flex: 0 0 calc(50% - 8px); }
   .flow__link { display: none; }
@@ -1266,7 +1267,7 @@ button { font: inherit; cursor: pointer; border: 0; background: transparent; col
   .clips__grid { grid-template-columns: 1fr 1fr; }
 
   .about { grid-template-columns: 1fr; }
-  .about__portrait { max-width: 340px; }
+  .about__portrait { max-width: 560px; }
 
   .footer { margin: 0 10px 10px; padding: 24px 20px; }
 }
