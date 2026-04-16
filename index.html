@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A.N.A.L. — Automated Network Action Link. Dispositivos físicos que tu chat de Twitch activa en vivo mediante channel point rewards y alertas." data-i18n="meta.description" data-i18n-attr="content" />
+  <title data-i18n="meta.title">A.N.A.L. — Automated Network Action Link</title>
+
+  <link rel="icon" type="image/png" href="assets/logo.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Rubik+Mono+One&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles/main.css" />
+</head>
+<body>
+
+  <!-- scroll progress tape -->
+  <div class="scroll-tape" aria-hidden="true"><div class="scroll-tape__fill"></div></div>
+
+  <!-- decorative caution strips -->
+  <div class="caution-strip caution-strip--top" aria-hidden="true"></div>
+
+  <!-- NAV -->
+  <header class="nav" id="top">
+    <a href="#top" class="nav__brand" aria-label="A.N.A.L. home">
+      <img src="assets/logo.png" alt="" class="nav__logo" />
+      <span class="nav__brand-text">
+        <span class="nav__brand-mark">A.N.A.L.</span>
+        <span class="nav__brand-sub" data-i18n="nav.brandSub">AUTOMATED Network ACTION LINK</span>
+      </span>
+    </a>
+
+    <nav class="nav__menu" id="navMenu" aria-label="Primary">
+      <a href="#que-es" data-i18n="nav.what">Qué es</a>
+      <a href="#como-funciona" data-i18n="nav.how">Cómo funciona</a>
+      <a href="#dispositivos" data-i18n="nav.devices">Dispositivos</a>
+      <a href="#en-accion" data-i18n="nav.demo">En acción</a>
+      <a href="#sobre-mi" data-i18n="nav.about">Sobre mí</a>
+
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button type="button" class="lang-toggle__btn is-active" data-lang="es" aria-pressed="true">ES</button>
+        <button type="button" class="lang-toggle__btn" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+    </nav>
+
+    <a href="#contacto" class="btn btn--primary btn--sm nav__cta" data-i18n="nav.cta">Contáctame</a>
+
+    <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="hero__grid" aria-hidden="true"></div>
+      <div class="hero__scan" aria-hidden="true"></div>
+
+      <div class="hero__inner">
+        <div class="hero__left">
+          <div class="module-label">
+            <span class="module-label__dot"></span>
+            <span data-i18n="hero.eyebrow">MOD.01 // CHANNEL POINTS × HARDWARE</span>
+          </div>
+
+          <h1 id="heroTitle" class="hero__title">
+            <span class="hero__line hero__line--1" data-i18n="hero.title1">AUTOMATED</span>
+            <span class="hero__line hero__line--2" data-i18n="hero.title2">NETWORK ACTION</span>
+            <span class="hero__line hero__line--3" data-i18n="hero.title3">LINK</span>
+          </h1>
+
+          <p class="hero__subtitle" data-i18n="hero.subtitle">
+            El puente entre tu chat y el mundo físico. Channel points, donaciones y alertas que disparan dispositivos reales durante tu stream.
+          </p>
+
+          <div class="hero__ctas">
+            <a href="#contacto" class="btn btn--primary" data-i18n="hero.primaryCta">Pide el tuyo</a>
+            <a href="#en-accion" class="btn btn--ghost">
+              <span data-i18n="hero.secondaryCta">Ver en acción</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg>
+            </a>
+          </div>
+
+          <dl class="hero__specs">
+            <div><dt data-i18n="hero.spec1Label">DISPOSITIVOS</dt><dd data-i18n="hero.spec1Value">Custom · Ready-made</dd></div>
+            <div><dt data-i18n="hero.spec2Label">LATENCIA</dt><dd data-i18n="hero.spec2Value">&lt; 1 s</dd></div>
+            <div><dt data-i18n="hero.spec3Label">INTEGRA</dt><dd data-i18n="hero.spec3Value">Twitch · Streamlabs</dd></div>
+          </dl>
+        </div>
+
+        <aside class="hero__right">
+          <div class="panel panel--video">
+            <header class="panel__header">
+              <span class="panel__dot panel__dot--live"></span>
+              <span class="panel__label" data-i18n="hero.panelLabel">LIVE FEED / DEMO</span>
+              <span class="panel__code">A.N.A.L.–00</span>
+            </header>
+            <video
+              class="lazy-video"
+              data-src="assets/videos/infomercial-anal.webm"
+              poster="assets/posters/infomercial-anal.jpg"
+              muted loop playsinline preload="none"
+              aria-label="A.N.A.L. demo loop"
+            ></video>
+          </div>
+
+          <div class="ticker" aria-hidden="true">
+            <header class="panel__header panel__header--inline">
+              <span class="panel__dot panel__dot--pulse"></span>
+              <span class="panel__label" data-i18n="hero.tickerLabel">EVENT STREAM</span>
+            </header>
+            <div class="ticker__viewport">
+              <ul class="ticker__list">
+                <li><span class="ticker__tag">REDEEM</span><span>channel point · 5 000</span><span class="ticker__arrow">→</span><span class="ticker__dev" data-i18n="ticker.dev1">Máquina de toques</span></li>
+                <li><span class="ticker__tag ticker__tag--sub">SUB</span><span>tier 1</span><span class="ticker__arrow">→</span><span class="ticker__dev" data-i18n="ticker.dev2">Spray ×3</span></li>
+                <li><span class="ticker__tag ticker__tag--don">DONATE</span><span>$5.00</span><span class="ticker__arrow">→</span><span class="ticker__dev" data-i18n="ticker.dev3">Control bloqueado 10s</span></li>
+                <li><span class="ticker__tag">REDEEM</span><span>channel point · 1 500</span><span class="ticker__arrow">→</span><span class="ticker__dev" data-i18n="ticker.dev4">Flash rojo</span></li>
+                <li><span class="ticker__tag ticker__tag--sub">FOLLOW</span><span>@nuevoViewer</span><span class="ticker__arrow">→</span><span class="ticker__dev" data-i18n="ticker.dev5">Fanfarria</span></li>
+                <!-- duplicate for seamless marquee loop -->
+                <li aria-hidden="true"><span class="ticker__tag">REDEEM</span><span>channel point · 5 000</span><span class="ticker__arrow">→</span><span class="ticker__dev" data-i18n="ticker.dev1">Máquina de toques</span></li>
+                <li aria-hidden="true"><span class="ticker__tag ticker__tag--sub">SUB</span><span>tier 1</span><span class="ticker__arrow">→</span><span class="ticker__dev" data-i18n="ticker.dev2">Spray ×3</span></li>
+                <li aria-hidden="true"><span class="ticker__tag ticker__tag--don">DONATE</span><span>$5.00</span><span class="ticker__arrow">→</span><span class="ticker__dev" data-i18n="ticker.dev3">Control bloqueado 10s</span></li>
+                <li aria-hidden="true"><span class="ticker__tag">REDEEM</span><span>channel point · 1 500</span><span class="ticker__arrow">→</span><span class="ticker__dev" data-i18n="ticker.dev4">Flash rojo</span></li>
+                <li aria-hidden="true"><span class="ticker__tag ticker__tag--sub">FOLLOW</span><span>@nuevoViewer</span><span class="ticker__arrow">→</span><span class="ticker__dev" data-i18n="ticker.dev5">Fanfarria</span></li>
+              </ul>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="hero__bottom-rail" aria-hidden="true">
+        <span>A.N.A.L. v0.1</span>
+        <span>·</span>
+        <span data-i18n="hero.rail1">TWITCH-COMPLIANT</span>
+        <span>·</span>
+        <span data-i18n="hero.rail2">OPEN HARDWARE</span>
+        <span>·</span>
+        <span data-i18n="hero.rail3">HECHO A MANO</span>
+      </div>
+    </section>
+
+    <!-- PROOF -->
+    <section class="section section--proof" id="signal" aria-labelledby="proofTitle">
+      <header class="section__head">
+        <span class="module-label"><span class="module-label__dot"></span><span data-i18n="proof.eyebrow">SIGNAL // CHAT REAL</span></span>
+        <h2 id="proofTitle" class="section__title" data-i18n="proof.title">El chat pierde la cabeza.</h2>
+      </header>
+
+      <div class="proof">
+        <figure class="proof__card">
+          <img src="assets/images/chat-divertido.jpg" alt="" data-i18n="what.proofAlt1" data-i18n-attr="alt" loading="lazy" />
+          <figcaption data-i18n="what.proofCap1">El chat diciendo que es divertido en vivo.</figcaption>
+        </figure>
+        <figure class="proof__card">
+          <img src="assets/images/chat-subs.jpg" alt="" data-i18n="what.proofAlt2" data-i18n-attr="alt" loading="lazy" />
+          <figcaption data-i18n="what.proofCap2">Viewer prometiendo regalar subs para disparar el dispositivo.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- QUÉ ES -->
+    <section class="section" id="que-es" aria-labelledby="whatTitle">
+      <header class="section__head">
+        <span class="module-label"><span class="module-label__dot"></span><span data-i18n="what.eyebrow">MOD.02 // QUÉ ES</span></span>
+        <h2 id="whatTitle" class="section__title" data-i18n="what.title">Tu chat ya interactúa. Ahora puede activar cosas.</h2>
+        <p class="section__lede" data-i18n="what.body">A.N.A.L. conecta los rewards y alertas de Twitch con dispositivos físicos construidos a medida. Tus espectadores canjean puntos, donan, se suscriben — y algo pasa en tu habitación. En vivo. Al instante.</p>
+      </header>
+
+      <div class="features">
+        <article class="feature">
+          <div class="feature__num">01</div>
+          <h3 class="feature__title" data-i18n="what.feat1.title">Hardware real</h3>
+          <p class="feature__body" data-i18n="what.feat1.body">Dispositivos reales controlados por MCUs (Raspberry Pi, Orange Pi, ESP32). No plugins ni overlays: cosas que se mueven, se iluminan, disparan.</p>
+        </article>
+        <article class="feature">
+          <div class="feature__num">02</div>
+          <h3 class="feature__title" data-i18n="what.feat2.title">Totalmente custom</h3>
+          <p class="feature__body" data-i18n="what.feat2.body">Te proveo dispositivos que ya tengo o diseño y construyo uno para tu stream. Si lo puedes imaginar y la física lo permite, lo hacemos.</p>
+        </article>
+        <article class="feature">
+          <div class="feature__num">03</div>
+          <h3 class="feature__title" data-i18n="what.feat3.title">Pensado para Twitch</h3>
+          <p class="feature__body" data-i18n="what.feat3.body">Se integra con channel point rewards, donaciones, follows, suscripciones, hype trains. Lo que sea que active tu comunidad.</p>
+        </article>
+      </div>
+
+    </section>
+
+    <!-- CÓMO FUNCIONA -->
+    <section class="section section--flow" id="como-funciona" aria-labelledby="howTitle">
+      <header class="section__head">
+        <span class="module-label"><span class="module-label__dot"></span><span data-i18n="how.eyebrow">MOD.03 // FLUJO</span></span>
+        <h2 id="howTitle" class="section__title" data-i18n="how.title">De un click a una acción física en &lt; 1 s</h2>
+      </header>
+
+      <ol class="flow">
+        <li class="flow__node">
+          <div class="flow__badge">01</div>
+          <div class="flow__body">
+            <h3 data-i18n="how.step1">VIEWER</h3>
+            <p data-i18n="how.step1Sub">canjea reward / dona / se suscribe</p>
+          </div>
+        </li>
+        <li class="flow__link" aria-hidden="true"><span class="flow__pulse"></span></li>
+        <li class="flow__node">
+          <div class="flow__badge">02</div>
+          <div class="flow__body">
+            <h3 data-i18n="how.step2">TWITCH</h3>
+            <p data-i18n="how.step2Sub">evento enviado vía API</p>
+          </div>
+        </li>
+        <li class="flow__link" aria-hidden="true"><span class="flow__pulse"></span></li>
+        <li class="flow__node">
+          <div class="flow__badge">03</div>
+          <div class="flow__body">
+            <h3 data-i18n="how.step3">MCU</h3>
+            <p data-i18n="how.step3Sub">RPi · Orange Pi · ESP32</p>
+          </div>
+        </li>
+        <li class="flow__link" aria-hidden="true"><span class="flow__pulse"></span></li>
+        <li class="flow__node flow__node--end">
+          <div class="flow__badge">04</div>
+          <div class="flow__body">
+            <h3 data-i18n="how.step4">DISPOSITIVO</h3>
+            <p data-i18n="how.step4Sub">se enciende, se mueve, dispara</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- DISPOSITIVOS -->
+    <section class="section" id="dispositivos" aria-labelledby="devTitle">
+      <header class="section__head">
+        <span class="module-label"><span class="module-label__dot"></span><span data-i18n="devices.eyebrow">MOD.04 // INVENTARIO</span></span>
+        <h2 id="devTitle" class="section__title" data-i18n="devices.title">Los dispositivos</h2>
+        <p class="section__lede" data-i18n="devices.subtitle">Catálogo inicial. Construyo más a pedido.</p>
+      </header>
+
+      <div class="devices">
+        <article class="device">
+          <div class="device__media">
+            <video
+              class="lazy-video"
+              data-src="assets/videos/infomercial-control.webm"
+              poster="assets/posters/infomercial-control.jpg"
+              muted loop playsinline preload="none"
+            ></video>
+          </div>
+          <div class="device__body">
+            <div class="device__tag" data-i18n="devices.control.trigger">REWARD · BLOQUEO / BOTONES</div>
+            <h3 class="device__name" data-i18n="devices.control.name">Automatizador de Control</h3>
+            <p class="device__desc" data-i18n="devices.control.desc">Interviene tu control de consola en vivo: bloquea botones, activa vibración, inyecta inputs según el reward.</p>
+          </div>
+        </article>
+
+        <article class="device">
+          <div class="device__media">
+            <video
+              class="lazy-video"
+              data-src="assets/videos/infomercial-toques.webm"
+              poster="assets/posters/infomercial-toques.jpg"
+              muted loop playsinline preload="none"
+            ></video>
+          </div>
+          <div class="device__body">
+            <div class="device__tag" data-i18n="devices.toques.trigger">REWARD · TOQUE ELÉCTRICO</div>
+            <h3 class="device__name" data-i18n="devices.toques.name">Máquina de Toques</h3>
+            <p class="device__desc" data-i18n="devices.toques.desc">Dispositivo que da un toque (eléctrico leve) cuando el chat lo canjea. Reacción garantizada.</p>
+          </div>
+        </article>
+
+        <article class="device">
+          <div class="device__media">
+            <video
+              class="lazy-video"
+              data-src="assets/videos/infomercial-spray.webm"
+              poster="assets/posters/infomercial-spray.jpg"
+              muted loop playsinline preload="none"
+            ></video>
+          </div>
+          <div class="device__body">
+            <div class="device__tag" data-i18n="devices.spray.trigger">REWARD · SPRAY</div>
+            <h3 class="device__name" data-i18n="devices.spray.name">Reward de Spray</h3>
+            <p class="device__desc" data-i18n="devices.spray.desc">Rocía al streamer. Perfecto para el verano, para hacerte reaccionar, o solo para molestar.</p>
+          </div>
+        </article>
+
+        <article class="device device--cta">
+          <div class="device__body device__body--cta">
+            <div class="device__tag device__tag--alt" data-i18n="devices.custom.tag">ON DEMAND</div>
+            <h3 class="device__name" data-i18n="devices.custom.name">¿Tienes otra idea?</h3>
+            <p class="device__desc" data-i18n="devices.custom.desc">Diseño y construyo dispositivos desde cero. Si se puede cablear, se puede activar desde tu chat.</p>
+            <a href="#contacto" class="btn btn--primary btn--sm" data-i18n="devices.custom.cta">Proponer uno</a>
+          </div>
+        </article>
+      </div>
+
+      <aside class="band" aria-label="CTA">
+        <span class="band__text" data-i18n="devices.bandText">¿Viste uno que te guste? Armamos el tuyo.</span>
+        <a href="#contacto" class="btn btn--primary btn--sm" data-i18n="devices.bandCta">Escríbeme</a>
+      </aside>
+    </section>
+
+    <!-- EN ACCIÓN -->
+    <section class="section" id="en-accion" aria-labelledby="demoTitle">
+      <header class="section__head">
+        <span class="module-label"><span class="module-label__dot"></span><span data-i18n="demo.eyebrow">MOD.05 // EN ACCIÓN</span></span>
+        <h2 id="demoTitle" class="section__title" data-i18n="demo.title">Míralo funcionar</h2>
+      </header>
+
+      <div class="youtubes">
+        <figure class="yt">
+          <div class="yt-facade" data-yt-id="Y7nE_3G72oo" data-yt-title="Pitch para streamers" tabindex="0" role="button" aria-label="Reproducir video pitch para streamers">
+            <img src="https://img.youtube.com/vi/Y7nE_3G72oo/hqdefault.jpg" alt="" loading="lazy" />
+            <div class="yt-facade__btn" aria-hidden="true">
+              <svg viewBox="0 0 64 64" width="64" height="64"><polygon points="24,18 24,46 48,32" fill="currentColor"/></svg>
+            </div>
+          </div>
+          <figcaption>
+            <h3 data-i18n="demo.pitchTitle">Pitch para streamers</h3>
+            <p data-i18n="demo.pitchDesc">2 minutos. Qué es, cómo lo uso y por qué a tu chat le va a encantar.</p>
+          </figcaption>
+        </figure>
+
+        <figure class="yt">
+          <div class="yt-facade" data-yt-id="dfGu-175Ejs" data-yt-title="Dispositivos en acción" tabindex="0" role="button" aria-label="Reproducir video de dispositivos en acción">
+            <img src="https://img.youtube.com/vi/dfGu-175Ejs/hqdefault.jpg" alt="" loading="lazy" />
+            <div class="yt-facade__btn" aria-hidden="true">
+              <svg viewBox="0 0 64 64" width="64" height="64"><polygon points="24,18 24,46 48,32" fill="currentColor"/></svg>
+            </div>
+          </div>
+          <figcaption>
+            <h3 data-i18n="demo.devicesTitle">Dispositivos en acción</h3>
+            <p data-i18n="demo.devicesDesc">Recorrido por los dispositivos que ya tengo funcionando.</p>
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="clips">
+        <header class="clips__head">
+          <h3 data-i18n="demo.clipsTitle">Redeems reales</h3>
+          <p data-i18n="demo.clipsDesc">Clips cortos de activaciones en vivo.</p>
+        </header>
+
+        <div class="clips__grid">
+          <figure class="clip">
+            <video
+              class="lazy-video"
+              data-src="assets/videos/activacion-toques.webm"
+              poster="assets/posters/activacion-toques.jpg"
+              muted loop playsinline preload="none"
+            ></video>
+            <figcaption data-i18n="demo.clip1">Máquina de toques activándose</figcaption>
+          </figure>
+          <figure class="clip">
+            <video
+              class="lazy-video"
+              data-src="assets/videos/activacion-bloqueo.webm"
+              poster="assets/posters/activacion-bloqueo.jpg"
+              muted loop playsinline preload="none"
+            ></video>
+            <figcaption data-i18n="demo.clip2">Control bloqueado en pleno juego</figcaption>
+          </figure>
+          <figure class="clip">
+            <video
+              class="lazy-video"
+              data-src="assets/videos/activacion-spray.webm"
+              poster="assets/posters/activacion-spray.jpg"
+              muted loop playsinline preload="none"
+            ></video>
+            <figcaption data-i18n="demo.clip3">Spray disparando</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOBRE MÍ -->
+    <section class="section section--about" id="sobre-mi" aria-labelledby="aboutTitle">
+      <header class="section__head">
+        <span class="module-label"><span class="module-label__dot"></span><span data-i18n="about.eyebrow">MOD.06 // OPERADOR</span></span>
+        <h2 id="aboutTitle" class="section__title" data-i18n="about.title">El que construye esto</h2>
+      </header>
+
+      <div class="about">
+        <figure class="about__portrait">
+          <img src="assets/images/eiram-portrait.jpg" alt="" data-i18n="about.portraitAlt" data-i18n-attr="alt" loading="lazy" />
+          <figcaption>
+            <strong>EIRAM ARAUJO</strong>
+            <span data-i18n="about.role">Hardware · Firmware · Integration</span>
+          </figcaption>
+        </figure>
+
+        <div class="about__body">
+          <p data-i18n="about.body">Soy Eiram Araujo. Diseño y construyo dispositivos electrónicos custom. Si tienes una idea de reward físico para tu stream, la bajamos a realidad: diseño de hardware, firmware del MCU, integración con Twitch. Dispositivos existentes o desde cero.</p>
+
+          <h3 class="about__subtitle" data-i18n="about.listTitle">Lo que puedo construir</h3>
+          <ul class="about__list">
+            <li data-i18n="about.list1">Dispositivos del inventario, listos para integrar.</li>
+            <li data-i18n="about.list2">Hardware custom diseñado específicamente para tu idea.</li>
+            <li data-i18n="about.list3">Integración con Twitch API, Streamlabs, StreamElements.</li>
+            <li data-i18n="about.list4">Firmware sobre Raspberry Pi, Orange Pi, ESP32, Arduino.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section class="section section--contact" id="contacto" aria-labelledby="contactTitle">
+      <header class="section__head">
+        <span class="module-label"><span class="module-label__dot"></span><span data-i18n="contact.eyebrow">MOD.07 // CONTACTO</span></span>
+        <h2 id="contactTitle" class="section__title" data-i18n="contact.title">Listo para que tu chat haga algo más que escribir</h2>
+        <p class="section__lede" data-i18n="contact.body">Los precios se discuten contigo según qué tipo de dispositivo quieras y cuán custom sea. Escríbeme y hablamos.</p>
+      </header>
+
+      <div class="contact-card">
+        <div class="contact-card__label" data-i18n="contact.emailLabel">EMAIL</div>
+        <div class="contact-card__email">
+          <span id="emailTarget">eiramaraujo1998@gmail.com</span>
+        </div>
+        <div class="contact-card__actions">
+          <button type="button" class="btn btn--primary" id="copyEmail" data-copy="eiramaraujo1998@gmail.com">
+            <span data-i18n="contact.copyBtn">Copiar email</span>
+          </button>
+          <a href="mailto:eiramaraujo1998@gmail.com?subject=A.N.A.L.%20%E2%80%94%20Interesado" class="btn btn--ghost" data-i18n="contact.mailBtn">Abrir en cliente</a>
+        </div>
+        <p class="contact-card__note" data-i18n="contact.note">Respondo dentro de 24–48h.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <img src="assets/logo.png" alt="" class="footer__logo" />
+        <div>
+          <div class="footer__mark">A.N.A.L.</div>
+          <div class="footer__sub" data-i18n="footer.tag">Automated Network Action Link · Hecho a mano</div>
+        </div>
+      </div>
+
+      <nav class="footer__nav" aria-label="Footer">
+        <a href="#que-es" data-i18n="nav.what">Qué es</a>
+        <a href="#dispositivos" data-i18n="nav.devices">Dispositivos</a>
+        <a href="#en-accion" data-i18n="nav.demo">En acción</a>
+        <a href="#contacto" data-i18n="nav.contact">Contacto</a>
+      </nav>
+    </div>
+
+    <div class="footer__bottom">
+      <span>© <span id="year">2025</span> Eiram Araujo</span>
+      <span class="footer__disclaimer" data-i18n="footer.disclaimer">Sí, somos conscientes del acrónimo. Ese es el punto.</span>
+    </div>
+  </footer>
+
+  <script src="scripts/i18n.js" defer></script>
+  <script src="scripts/main.js" defer></script>
+</body>
+</html>
