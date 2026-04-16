@@ -100,7 +100,7 @@
 
       "demo.eyebrow": "MOD.05 // EN ACCIÓN",
       "demo.title": "Míralo funcionar",
-      "demo.pitchTitle": "Pitch para streamers",
+      "demo.pitchTitle": "Trade offer!!",
       "demo.pitchDesc": "2 minutos. Qué es, cómo lo uso y por qué a tu chat le va a encantar.",
       "demo.devicesTitle": "Dispositivos en acción",
       "demo.devicesDesc": "Recorrido por los dispositivos que ya tengo funcionando.",
@@ -222,7 +222,7 @@
 
       "demo.eyebrow": "MOD.05 // IN ACTION",
       "demo.title": "Watch it run",
-      "demo.pitchTitle": "Streamer pitch",
+      "demo.pitchTitle": "Trade offer!!",
       "demo.pitchDesc": "2 minutes. What it is, how I use it, why your chat will love it.",
       "demo.devicesTitle": "Devices in action",
       "demo.devicesDesc": "A tour of the devices I already have running.",
