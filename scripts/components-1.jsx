@@ -383,7 +383,7 @@ function Arrow() {
 }
 
 // ─────────────────────────────────────────────────────────────
-// Quick facts strip — 4 short stats under the hero
+// Quick facts strip — 3 short stats under the hero
 // ─────────────────────────────────────────────────────────────
 function QuickFacts({ t, motion }) {
   const facts = [

@@ -259,7 +259,6 @@ const I18N = {
     hero_lede:
       "Desarrollador con más de 3 años en un ERP a gran escala y experiencia en firmware embebido entre México y Alemania. Escribo código claro, formo a nuevos compañeros y uso la IA como multiplicador de fuerza.",
     hero_cta_work: "Ver trabajo",
-    hero_cta_cv: "Descargar CV",
     qf_years: "Años en producción",
     qf_countries: "Países desde donde he entregado",
     qf_langs: "Idiomas",
@@ -348,7 +347,6 @@ const I18N = {
     hero_lede:
       "Softwareentwickler mit 3+ Jahren an einem groß angelegten ERP und Erfahrung in Embedded-Firmware in Mexiko und Deutschland. Ich schreibe klaren Code, betreue neue Kolleg:innen und nutze KI als Hebel.",
     hero_cta_work: "Arbeit ansehen",
-    hero_cta_cv: "Lebenslauf laden",
     qf_years: "Jahre in der Produktion",
     qf_countries: "Länder, aus denen ich geliefert habe",
     qf_langs: "Sprachen",
