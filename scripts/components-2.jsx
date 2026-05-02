@@ -334,7 +334,7 @@ function SkillsBlock({ t, motion, themeKey, lang }) {
                     fontFamily: "var(--font-display)",
                     fontWeight: "var(--display-weight)",
                     fontSize: 16, color: "var(--ink)",
-                  }}>{s.code === "es" ? "Spanish" : s.code === "en" ? "English" : s.code === "de" ? "German" : "Japanese"}</span>
+                  }}>{t[`lang_${s.code}`]}</span>
                   <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-muted)", letterSpacing: "0.04em" }}>{s.level}</span>
                 </li>
               ))}
