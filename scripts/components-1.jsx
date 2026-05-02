@@ -390,7 +390,7 @@ function QuickFacts({ t, motion }) {
   const facts = [
     { v: "3+", k: t.qf_years },
     { v: "2",  k: t.qf_countries },
-    { v: "3+", k: t.qf_focus },
+    { v: "Backend / Embedded systems", k: t.qf_focus },
   ];
   return (
     <section style={{ borderBottom: "1px solid var(--rule)" }}>

@@ -21,7 +21,7 @@ function Work({ t, motion, lang, themeKey }) {
   return (
     <section id="work" style={{ padding: "clamp(60px, 8vw, 110px) 0", background: "var(--bg-alt)", borderBottom: "1px solid var(--rule)" }}>
       <div className="ea-row">
-        <window.SectionHeader motion={motion} eyebrow={t.work_h} title={t.work_h} />
+        <window.SectionHeader motion={motion} eyebrow={t.work_e} title={t.work_h} />
         <ol style={{ listStyle: "none", padding: 0, margin: 0 }}>
           {items.map((job, i) => (
             <window.Reveal key={job.id} motion={motion} delay={i * 80} as="li" style={{
@@ -192,7 +192,7 @@ function Projects({ t, motion, themeKey }) {
   return (
     <section id="projects" style={{ padding: "clamp(60px, 8vw, 110px) 0", background: "var(--bg-alt)", borderBottom: "1px solid var(--rule)" }}>
       <div className="ea-row">
-        <window.SectionHeader motion={motion} eyebrow={t.proj_h} title={t.proj_h} lede={t.proj_lede} />
+        <window.SectionHeader motion={motion} eyebrow={t.proj_e} title={t.proj_h} lede={t.proj_lede} />
         <div style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
@@ -213,7 +213,7 @@ function Voices({ t, motion, themeKey }) {
   return (
     <section id="voices" style={{ padding: "clamp(60px, 8vw, 110px) 0", borderBottom: "1px solid var(--rule)" }}>
       <div className="ea-row">
-        <window.SectionHeader motion={motion} eyebrow={t.voices_h} title={t.voices_h} lede={t.voices_lede} />
+        <window.SectionHeader motion={motion} eyebrow={t.voices_e} title={t.voices_h} lede={t.voices_lede} />
         <div style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
@@ -334,7 +334,7 @@ function SkillsBlock({ t, motion, themeKey, lang }) {
                     fontFamily: "var(--font-display)",
                     fontWeight: "var(--display-weight)",
                     fontSize: 16, color: "var(--ink)",
-                  }}>{s.code === "es" ? "Español" : s.code === "en" ? "English" : "Deutsch"}</span>
+                  }}>{s.code === "es" ? "Spanish" : s.code === "en" ? "English" : s.code === "de" ? "German" : "Japanese"}</span>
                   <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--ink-muted)", letterSpacing: "0.04em" }}>{s.level}</span>
                 </li>
               ))}
@@ -405,8 +405,6 @@ function Contact({ t, motion, themeKey }) {
             <dl style={{ margin: 0, display: "grid", gridTemplateColumns: "auto 1fr", rowGap: 8, columnGap: 20, fontFamily: "var(--font-mono)", fontSize: 12 }}>
               <dt style={{ color: "var(--ink-muted)", letterSpacing: "0.04em" }}>email</dt>
               <dd style={{ margin: 0, color: "var(--ink)" }}>{r.email}</dd>
-              <dt style={{ color: "var(--ink-muted)", letterSpacing: "0.04em" }}>phone</dt>
-              <dd style={{ margin: 0, color: "var(--ink)" }}>{r.phone}</dd>
               <dt style={{ color: "var(--ink-muted)", letterSpacing: "0.04em" }}>location</dt>
               <dd style={{ margin: 0, color: "var(--ink)" }}>{r.location}</dd>
             </dl>
