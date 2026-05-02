@@ -352,7 +352,6 @@ function Hero({ t, themeKey, motion, lang, setLang }) {
           <Reveal motion={motion} delay={240}>
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
               <a href="#work" className="ea-btn ea-btn-primary">{t.hero_cta_work} <Arrow /></a>
-              <a href="#contact" className="ea-btn ea-btn-ghost">{t.hero_cta_cv}</a>
             </div>
           </Reveal>
         </div>

@@ -161,7 +161,6 @@ const I18N = {
     hero_lede:
       "Software developer with 3+ years on a large-scale ERP and embedded firmware experience across Mexico and Germany. I write clear code, mentor new hires, and use AI as a force multiplier.",
     hero_cta_work: "See work",
-    hero_cta_cv: "Download CV",
     // Quick facts
     qf_years: "Years building production software",
     qf_countries: "Countries shipped from",
