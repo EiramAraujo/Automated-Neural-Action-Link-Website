@@ -67,25 +67,6 @@ function Nav({ t, lang, setLang, themeKey, motion }) {
           <NavLink href="#projects">{t.nav_projects}</NavLink>
           <NavLink href="#voices">{t.nav_voices}</NavLink>
           <NavLink href="#contact">{t.nav_contact}</NavLink>
-          <a href="#contact" className="ea-cv-btn" style={{
-            display: "inline-flex", alignItems: "center", gap: 6,
-            padding: "6px 12px", borderRadius: 99,
-            border: "1px solid var(--accent-warm-soft, rgba(245,162,93,0.35))",
-            background: "var(--accent-warm-bg, rgba(245,162,93,0.08))",
-            color: "var(--accent-warm, #f5a25d)",
-            fontFamily: "var(--font-mono)", fontSize: 11,
-            letterSpacing: "0.06em",
-            textDecoration: "none",
-            transition: "background .18s, transform .18s",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = "var(--accent-warm-bg-hover, rgba(245,162,93,0.16))";
-            e.currentTarget.style.transform = "translateY(-1px)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = "var(--accent-warm-bg, rgba(245,162,93,0.08))";
-            e.currentTarget.style.transform = "none";
-          }}>↓ CV</a>
           <LangSwitch lang={lang} setLang={setLang} />
         </div>
         <div className="ea-nav-mobile" style={{ display: "none" }}>

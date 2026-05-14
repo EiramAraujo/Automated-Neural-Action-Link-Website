@@ -752,13 +752,16 @@ function QuickFacts({ t, motion }) {
         display: "grid",
         gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
         gap: 0,
+        alignItems: "stretch",
       }}>
         {facts.map((f, i) => (
-          <Reveal key={i} motion={motion} delay={i * 60}>
+          <Reveal key={i} motion={motion} delay={i * 60} style={{ display: "flex", height: "100%" }}>
             <div style={{
               padding: "28px 22px",
               borderLeft: i === 0 ? "none" : "1px solid var(--rule)",
               minHeight: 120,
+              flex: 1,
+              alignSelf: "stretch",
             }}>
               <div style={{
                 fontFamily: "var(--font-display)",
