@@ -4,6 +4,87 @@
 
 const { useState: uS3, useEffect: uE3, useRef: uR3 } = React;
 
+// Brand mark + wordmark — state-driven hover (no CSS :hover dependency).
+// Cross-fades the Latin name with the Japanese reading on hover / focus / tap.
+function BrandLink({ themeKey }) {
+  const [hovered, setHovered] = uS3(false);
+  const toggle = () => setHovered((h) => !h);
+  return (
+    <a
+      href="#top"
+      className="ea-brand"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onFocus={() => setHovered(true)}
+      onBlur={() => setHovered(false)}
+      onClick={(e) => {
+        // On touch devices, the first tap flips to JP; second tap (or the
+        // anchor's default behavior) scrolls to top. We don't preventDefault.
+        if (window.matchMedia && window.matchMedia("(hover: none)").matches) {
+          // touch — let the hover state ride for a moment
+          setHovered(true);
+          setTimeout(() => setHovered(false), 1400);
+        }
+      }}
+      style={{
+        display: "inline-flex", alignItems: "center", gap: 12,
+        textDecoration: "none", color: "var(--ink)",
+      }}
+    >
+      {/* Mark: angular-bracketed monogram */}
+      <span aria-hidden="true" className="ea-brand-mark" style={{
+        display: "inline-flex", alignItems: "center", justifyContent: "center",
+        height: 26, padding: "0 6px",
+        borderRadius: 6,
+        border: `1px solid ${hovered ? "var(--accent)" : "var(--rule-strong)"}`,
+        background: hovered
+          ? "color-mix(in oklab, var(--accent) 10%, transparent)"
+          : "color-mix(in oklab, var(--ink) 8%, transparent)",
+        fontFamily: "var(--font-mono)",
+        fontSize: 12, fontWeight: 600,
+        letterSpacing: "0.02em",
+        color: "var(--ink)",
+        lineHeight: 1,
+        transition: "border-color .2s, background .2s",
+      }}>
+        <span style={{ color: "var(--ink-muted)" }}>&lt;</span>
+        <span>EA</span>
+        <span style={{ color: "var(--ink-muted)" }}>/&gt;</span>
+      </span>
+      {/* Wordmark cross-fade */}
+      <span style={{
+        position: "relative",
+        display: "inline-block",
+        fontFamily: "var(--font-display)",
+        fontWeight: "var(--display-weight)",
+        fontSize: 15, letterSpacing: "var(--display-tracking)",
+        lineHeight: 1.2,
+        whiteSpace: "nowrap",
+        // Width is held by whichever is wider so layout doesn't jump.
+        minWidth: 130,
+      }}>
+        <span style={{
+          display: "inline-block",
+          opacity: hovered ? 0 : 1,
+          transform: hovered ? "translateY(-2px)" : "translateY(0)",
+          transition: "opacity .32s cubic-bezier(.2,.7,.2,1), transform .32s cubic-bezier(.2,.7,.2,1)",
+        }}>Eiram Araujo</span>
+        <span aria-hidden="true" style={{
+          position: "absolute",
+          left: 0, top: 0,
+          fontFamily: "'Inter', system-ui, sans-serif",
+          letterSpacing: "0.02em",
+          whiteSpace: "nowrap",
+          opacity: hovered ? 1 : 0,
+          transform: hovered ? "translateY(0)" : "translateY(2px)",
+          pointerEvents: "none",
+          transition: "opacity .32s cubic-bezier(.2,.7,.2,1), transform .32s cubic-bezier(.2,.7,.2,1)",
+        }}>エイラム アラウホ</span>
+      </span>
+    </a>
+  );
+}
+
 function Nav({ t, lang, setLang, themeKey, motion }) {
   const [scrolled, setScrolled] = uS3(false);
   uE3(() => {
@@ -27,54 +108,7 @@ function Nav({ t, lang, setLang, themeKey, motion }) {
         display: "flex", alignItems: "center", justifyContent: "space-between",
         padding: "14px 0", gap: 16,
       }}>
-        <a href="#top" className="ea-brand" style={{
-          display: "inline-flex", alignItems: "center", gap: 12,
-          textDecoration: "none", color: "var(--ink)",
-        }}>
-          {/* Mark: angular-bracketed monogram, mono-styled to read "developer" */}
-          <span aria-hidden="true" className="ea-brand-mark" style={{
-            display: "inline-flex", alignItems: "center", justifyContent: "center",
-            height: 26, padding: "0 6px",
-            borderRadius: 6,
-            border: "1px solid var(--rule-strong)",
-            background: "color-mix(in oklab, var(--ink) 8%, transparent)",
-            fontFamily: "var(--font-mono)",
-            fontSize: 12, fontWeight: 600,
-            letterSpacing: "0.02em",
-            color: "var(--ink)",
-            lineHeight: 1,
-          }}>
-            <span style={{ color: "var(--ink-muted)" }}>&lt;</span>
-            <span>EA</span>
-            <span style={{ color: "var(--ink-muted)" }}>/&gt;</span>
-          </span>
-          {/* Wordmark: cross-fades to the Japanese reading on hover */}
-          <span className="ea-brand-wordmark" style={{
-            position: "relative",
-            display: "inline-block",
-            fontFamily: "var(--font-display)",
-            fontWeight: "var(--display-weight)",
-            fontSize: 15, letterSpacing: "var(--display-tracking)",
-            lineHeight: 1.2,
-            whiteSpace: "nowrap",
-          }}>
-            <span className="ea-brand-latin" style={{
-              display: "inline-block",
-              transition: "opacity .32s cubic-bezier(.2,.7,.2,1), transform .32s cubic-bezier(.2,.7,.2,1)",
-            }}>Eiram Araujo</span>
-            <span className="ea-brand-jp" aria-hidden="true" style={{
-              position: "absolute",
-              left: 0, top: 0,
-              fontFamily: "'Inter', system-ui, sans-serif",
-              letterSpacing: "0.02em",
-              whiteSpace: "nowrap",
-              opacity: 0,
-              transform: "translateY(2px)",
-              pointerEvents: "none",
-              transition: "opacity .32s cubic-bezier(.2,.7,.2,1), transform .32s cubic-bezier(.2,.7,.2,1)",
-            }}>エイラム アラウホ</span>
-          </span>
-        </a>
+        <BrandLink themeKey={themeKey} />
         <div className="ea-nav-links" style={{ display: "flex", gap: 22, alignItems: "center" }}>
           <NavLink href="#about">{t.nav_about}</NavLink>
           <NavLink href="#work">{t.nav_work}</NavLink>
