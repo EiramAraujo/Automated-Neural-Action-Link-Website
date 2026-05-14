@@ -56,9 +56,23 @@ function Nav({ t, lang, setLang, themeKey, motion }) {
             fontWeight: "var(--display-weight)",
             fontSize: 15, letterSpacing: "var(--display-tracking)",
             lineHeight: 1.2,
+            whiteSpace: "nowrap",
           }}>
-            <span className="ea-brand-latin">Eiram Araujo</span>
-            <span className="ea-brand-jp" aria-hidden="true">エイラム アラウホ</span>
+            <span className="ea-brand-latin" style={{
+              display: "inline-block",
+              transition: "opacity .32s cubic-bezier(.2,.7,.2,1), transform .32s cubic-bezier(.2,.7,.2,1)",
+            }}>Eiram Araujo</span>
+            <span className="ea-brand-jp" aria-hidden="true" style={{
+              position: "absolute",
+              left: 0, top: 0,
+              fontFamily: "'Inter', system-ui, sans-serif",
+              letterSpacing: "0.02em",
+              whiteSpace: "nowrap",
+              opacity: 0,
+              transform: "translateY(2px)",
+              pointerEvents: "none",
+              transition: "opacity .32s cubic-bezier(.2,.7,.2,1), transform .32s cubic-bezier(.2,.7,.2,1)",
+            }}>エイラム アラウホ</span>
           </span>
         </a>
         <div className="ea-nav-links" style={{ display: "flex", gap: 22, alignItems: "center" }}>

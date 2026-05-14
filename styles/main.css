@@ -127,29 +127,15 @@ section[id] { scroll-margin-top: 80px; }
 }
 
 /* ── Brand mark + wordmark (nav) ───────────────────────────── */
-.ea-brand-wordmark { position: relative; display: inline-block; }
-.ea-brand-latin,
-.ea-brand-jp {
-  display: inline-block;
-  transition: opacity 0.32s cubic-bezier(.2,.7,.2,1), transform 0.32s cubic-bezier(.2,.7,.2,1);
-}
-.ea-brand-jp {
-  position: absolute;
-  left: 0; top: 0;
-  font-family: 'Inter', system-ui, sans-serif; /* falls back; renders Japanese via system fonts */
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-  opacity: 0;
-  transform: translateY(2px);
-  pointer-events: none;
-}
+/* Note: the critical position/opacity values are also set inline in nav.jsx
+   so the layout doesn't break if this stylesheet hasn't loaded yet. */
 .ea-brand:hover .ea-brand-latin {
-  opacity: 0;
-  transform: translateY(-2px);
+  opacity: 0 !important;
+  transform: translateY(-2px) !important;
 }
 .ea-brand:hover .ea-brand-jp {
-  opacity: 1;
-  transform: translateY(0);
+  opacity: 1 !important;
+  transform: translateY(0) !important;
 }
 .ea-brand-mark {
   transition: border-color 0.2s, background 0.2s;
