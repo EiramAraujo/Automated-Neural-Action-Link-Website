@@ -112,7 +112,40 @@ function Reveal({ children, delay = 0, motion, as: As = "div", style, className 
 // ─────────────────────────────────────────────────────────────
 // Tiny presentational primitives
 // ─────────────────────────────────────────────────────────────
-function Eyebrow({ children, style }) {
+// Eyebrow — small mono label above section titles. With `num`,
+// renders a numbered marker: 01 ──── ABOUT
+function Eyebrow({ children, style, num }) {
+  if (num != null) {
+    return (
+      <div style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 14,
+        ...style,
+      }}>
+        <span aria-hidden="true" style={{
+          fontFamily: "var(--font-mono)",
+          fontSize: 12,
+          fontWeight: 600,
+          color: "var(--accent)",
+          fontVariantNumeric: "tabular-nums",
+          letterSpacing: "0.02em",
+        }}>{String(num).padStart(2, "0")}</span>
+        <span aria-hidden="true" style={{
+          flexShrink: 0,
+          width: 36, height: 1,
+          background: "var(--rule-strong)",
+        }} />
+        <span style={{
+          fontFamily: "var(--font-mono)",
+          fontSize: 11,
+          letterSpacing: "0.18em",
+          textTransform: "uppercase",
+          color: "var(--ink-soft)",
+        }}>{children}</span>
+      </div>
+    );
+  }
   return (
     <div style={{
       fontFamily: "var(--font-mono)",
@@ -128,10 +161,14 @@ function Eyebrow({ children, style }) {
   );
 }
 
-function SectionHeader({ eyebrow, title, lede, motion }) {
+function SectionHeader({ eyebrow, title, lede, motion, num }) {
   return (
     <header style={{ marginBottom: 36, maxWidth: 720 }}>
-      {eyebrow && <Eyebrow style={{ marginBottom: 14 }}>{eyebrow}</Eyebrow>}
+      {(eyebrow || num != null) && (
+        <Reveal motion={motion}>
+          <Eyebrow num={num} style={{ marginBottom: 18 }}>{eyebrow}</Eyebrow>
+        </Reveal>
+      )}
       <Reveal motion={motion} as="h2" style={{
         margin: "0 0 12px 0",
         fontFamily: "var(--font-display)",
@@ -226,7 +263,7 @@ function HeroBackground({ motion, accent = "#7cb6ff" }) {
       x: Math.random() * W,
       y: (i / 10) * H + Math.random() * 40,
       vy: -(Math.random() * 0.18 + 0.08),
-      opacity: Math.random() * 0.10 + 0.05,
+      opacity: Math.random() * 0.10 + 0.14, // bumped from 0.05–0.15 → 0.14–0.24
     }));
 
     const LINK_DIST_SQ = 22000; // px²; max distance² to draw an edge
@@ -246,7 +283,7 @@ function HeroBackground({ motion, accent = "#7cb6ff" }) {
           c.y = H + 20;
           c.x = Math.random() * W;
           c.text = CODE_LINES[Math.floor(Math.random() * CODE_LINES.length)];
-          c.opacity = Math.random() * 0.10 + 0.05;
+          c.opacity = Math.random() * 0.10 + 0.14;
         }
         ctx.fillStyle = `rgba(${rgb},${c.opacity})`;
         ctx.fillText(c.text, c.x, c.y);
@@ -523,13 +560,12 @@ function Hero({ t, themeKey, motion, lang, setLang, accent }) {
       display: "flex",
       alignItems: "center",
       overflow: "hidden",
-      borderBottom: "1px solid var(--rule)",
-      // Deep dark base + accent halos (independent of theme so the
-      // hero stays moody even if the user tweaks accent later).
+      // No hard border — the gradient blends directly into Quick Facts.
+      // Bottom stop matches --bg so the hero bleeds into Quick Facts.
       background: `
         radial-gradient(1100px 600px at 78% 18%, ${accentColor}1a, transparent 65%),
         radial-gradient(900px 700px at 8% 88%, ${accentColor}10, transparent 60%),
-        linear-gradient(180deg, #06080c 0%, #0a0d12 60%, #0b0e13 100%)
+        linear-gradient(180deg, #06080c 0%, #0a0d12 55%, #0c0f15 85%, #0e1014 100%)
       `,
     }}>
       {/* Faint dotted/grid lattice */}
@@ -542,7 +578,7 @@ function Hero({ t, themeKey, motion, lang, setLang, accent }) {
       <div aria-hidden="true" style={{
         position: "absolute", inset: 0, pointerEvents: "none",
         background:
-          "radial-gradient(ellipse 75% 60% at 50% 55%, transparent 0%, rgba(6,8,12,0.55) 65%, rgba(6,8,12,0.92) 100%)",
+          "radial-gradient(ellipse 80% 65% at 50% 55%, transparent 0%, rgba(8,10,14,0.40) 70%, rgba(8,10,14,0.72) 100%)",
       }} />
 
       {/* Content */}
@@ -572,8 +608,9 @@ function Hero({ t, themeKey, motion, lang, setLang, accent }) {
             }}>
               <span aria-hidden="true" style={{
                 width: 8, height: 8, borderRadius: 99,
-                background: accentColor,
-                boxShadow: `0 0 12px ${accentColor}`,
+                // Warm secondary accent — signals "available now", distinct from the cool blue used for the work.
+                background: "var(--accent-warm, #f5a25d)",
+                boxShadow: "0 0 14px var(--accent-warm, #f5a25d)",
                 animation: motion === "off" ? "none" : "eaPulse 2.2s ease-out infinite",
               }} />
               {t.role_title} · {t.hero_eyebrow_status || "Open to roles"}
@@ -731,6 +768,7 @@ function QuickFacts({ t, motion }) {
                 lineHeight: 1.05,
                 color: "var(--ink)",
                 marginBottom: 8,
+                fontVariantNumeric: "tabular-nums",
               }}>{f.v}</div>
               <div style={{
                 fontFamily: "var(--font-mono)",
@@ -757,9 +795,11 @@ function About({ t, motion }) {
       <div className="ea-row">
         <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 0.9fr) minmax(0, 1.5fr)", gap: "clamp(24px, 6vw, 80px)" }} className="ea-about-grid">
           <div>
-            <Eyebrow>{t.about_h}</Eyebrow>
+            <Reveal motion={motion}>
+              <Eyebrow num={1} style={{ marginBottom: 18 }}>{t.about_h}</Eyebrow>
+            </Reveal>
             <Reveal motion={motion} delay={60} style={{
-              marginTop: 24,
+              marginTop: 8,
               aspectRatio: "4 / 5",
               maxWidth: 360,
               width: "100%",

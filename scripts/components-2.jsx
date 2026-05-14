@@ -21,7 +21,7 @@ function Work({ t, motion, lang, themeKey }) {
   return (
     <section id="work" style={{ padding: "clamp(60px, 8vw, 110px) 0", background: "var(--bg-alt)", borderBottom: "1px solid var(--rule)" }}>
       <div className="ea-row">
-        <window.SectionHeader motion={motion} eyebrow={t.work_e} title={t.work_h} />
+        <window.SectionHeader motion={motion} num={2} eyebrow={t.work_e} title={t.work_h} />
         <ol style={{ listStyle: "none", padding: 0, margin: 0 }}>
           {items.map((job, i) => (
             <window.Reveal key={job.id} motion={motion} delay={i * 80} as="li" style={{
@@ -42,25 +42,68 @@ function Work({ t, motion, lang, themeKey }) {
                 <div>{job.end ? fmtMY(job.end, lang) : t.work_present}</div>
               </div>
               <div>
-                <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 6 }}>
-                  <h3 style={{
-                    margin: 0,
-                    fontFamily: "var(--font-display)",
-                    fontWeight: "var(--display-weight)",
-                    letterSpacing: "var(--display-tracking)",
-                    fontSize: "clamp(22px, 2.4vw, 30px)",
-                    lineHeight: 1.15,
-                    color: "var(--ink)",
-                  }}>{t[job.role_key]}</h3>
+                <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginBottom: 10 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 14, minWidth: 0 }}>
+                    {job.logo && (
+                      <div className="ea-work-logo" aria-hidden="true" style={{
+                        width: 44, height: 44, flexShrink: 0,
+                        borderRadius: 8,
+                        overflow: "hidden",
+                        background: "var(--bg)",
+                        border: "1px solid var(--rule-strong)",
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                      }}>
+                        <img src={job.logo} alt="" loading="lazy" style={{
+                          width: "100%", height: "100%", objectFit: "contain",
+                          display: "block",
+                        }} />
+                      </div>
+                    )}
+                    <div style={{ minWidth: 0 }}>
+                      <h3 style={{
+                        margin: 0,
+                        fontFamily: "var(--font-display)",
+                        fontWeight: "var(--display-weight)",
+                        letterSpacing: "var(--display-tracking)",
+                        fontSize: "clamp(20px, 2.2vw, 28px)",
+                        lineHeight: 1.2,
+                        color: "var(--ink)",
+                      }}>{t[job.role_key]}</h3>
+                      <div style={{
+                        fontFamily: "var(--font-body)", fontSize: 15,
+                        color: "var(--accent)", fontWeight: 500, marginTop: 4,
+                        display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap",
+                      }}>
+                        <span>{job.company}</span>
+                        {!job.end && (
+                          <span style={{
+                            display: "inline-flex", alignItems: "center", gap: 6,
+                            padding: "2px 8px", borderRadius: 99,
+                            border: "1px solid var(--accent-warm-soft, rgba(245,162,93,0.35))",
+                            background: "var(--accent-warm-bg, rgba(245,162,93,0.08))",
+                            fontFamily: "var(--font-mono)", fontSize: 10.5,
+                            color: "var(--accent-warm, #f5a25d)",
+                            letterSpacing: "0.06em",
+                            textTransform: "uppercase",
+                          }}>
+                            <span aria-hidden="true" style={{
+                              width: 6, height: 6, borderRadius: 99,
+                              background: "var(--accent-warm, #f5a25d)",
+                              boxShadow: "0 0 8px var(--accent-warm, #f5a25d)",
+                              animation: motion === "off" ? "none" : "eaPulse 2.2s ease-out infinite",
+                            }} />
+                            {t.work_current || "Current"}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                   <div style={{
                     fontFamily: "var(--font-mono)", fontSize: 12,
                     color: "var(--ink-muted)", letterSpacing: "0.04em",
+                    paddingTop: 8, textAlign: "right",
                   }}>{job.location}</div>
                 </div>
-                <div style={{
-                  fontFamily: "var(--font-body)", fontSize: 16,
-                  color: "var(--accent)", fontWeight: 500, marginBottom: 14,
-                }}>{job.company}</div>
                 <ul style={{ listStyle: "none", padding: 0, margin: "0 0 16px 0" }}>
                   {job.bullets_keys.map((k) => (
                     <li key={k} style={{
@@ -94,9 +137,9 @@ function Pill({ children, themeKey }) {
       padding: "4px 10px",
       borderRadius: themeKey === "engineering" ? 4 : 99,
       border: "1px solid var(--rule-strong)",
-      fontFamily: themeKey === "engineering" ? "var(--font-mono)" : "var(--font-body)",
-      fontSize: 12, color: "var(--ink-soft)",
-      letterSpacing: themeKey === "engineering" ? "0.02em" : 0,
+      fontFamily: "var(--font-mono)",
+      fontSize: 11.5, color: "var(--ink-soft)",
+      letterSpacing: "0.04em",
       background: "transparent",
     }}>{children}</span>
   );
@@ -192,7 +235,7 @@ function Projects({ t, motion, themeKey }) {
   return (
     <section id="projects" style={{ padding: "clamp(60px, 8vw, 110px) 0", background: "var(--bg-alt)", borderBottom: "1px solid var(--rule)" }}>
       <div className="ea-row">
-        <window.SectionHeader motion={motion} eyebrow={t.proj_e} title={t.proj_h} lede={t.proj_lede} />
+        <window.SectionHeader motion={motion} num={4} eyebrow={t.proj_e} title={t.proj_h} lede={t.proj_lede} />
         <div style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
@@ -213,7 +256,7 @@ function Voices({ t, motion, themeKey }) {
   return (
     <section id="voices" style={{ padding: "clamp(60px, 8vw, 110px) 0", borderBottom: "1px solid var(--rule)" }}>
       <div className="ea-row">
-        <window.SectionHeader motion={motion} eyebrow={t.voices_e} title={t.voices_h} lede={t.voices_lede} />
+        <window.SectionHeader motion={motion} num={5} eyebrow={t.voices_e} title={t.voices_h} lede={t.voices_lede} />
         <div style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
@@ -273,7 +316,7 @@ function SkillsBlock({ t, motion, themeKey, lang }) {
           gap: "clamp(28px, 4vw, 56px)",
         }}>
           <div>
-            <Eyebrow style={{ marginBottom: 16 }}>{t.skills_h}</Eyebrow>
+            <Eyebrow num={3} style={{ marginBottom: 16 }}>{t.skills_h}</Eyebrow>
             <SkillGroup label={t.skills_langs} items={sk.languages} themeKey={themeKey} motion={motion} />
             <SkillGroup label={t.skills_frameworks} items={sk.frameworks} themeKey={themeKey} motion={motion} />
             <SkillGroup label={t.skills_practice} items={sk.practice} themeKey={themeKey} motion={motion} />
@@ -361,17 +404,9 @@ function SkillGroup({ label, items, themeKey, motion }) {
   );
 }
 
-function Eyebrow({ children, style }) {
-  return (
-    <div style={{
-      fontFamily: "var(--font-mono)",
-      fontSize: 11, letterSpacing: "0.16em",
-      textTransform: "uppercase", color: "var(--ink-muted)",
-      display: "inline-flex", alignItems: "center", gap: 8,
-      ...style,
-    }}>{children}</div>
-  );
-}
+// Eyebrow is defined globally in components-1.jsx (with `num` support).
+// We don't re-declare it here — the function-hoisting would shadow the
+// updated one and break numbered section eyebrows.
 
 // ─────────────────────────────────────────────────────────────
 // Contact + Footer

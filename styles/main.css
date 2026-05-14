@@ -16,7 +16,16 @@ body {
   color: #eef0f3;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Secondary "warm" accent — signals status / current / availability,
+     distinct from the cool blue used for "the work." */
+  --accent-warm: #f5a25d;
+  --accent-warm-soft: rgba(245, 162, 93, 0.35);
+  --accent-warm-bg: rgba(245, 162, 93, 0.08);
+  --accent-warm-bg-hover: rgba(245, 162, 93, 0.16);
 }
+
+/* Sections shouldn't tuck under the sticky nav when anchor-linked. */
+section[id] { scroll-margin-top: 80px; }
 
 /* ── Skip link ─────────────────────────────────────────────── */
 .ea-skip {
@@ -115,6 +124,51 @@ body {
 .ea-hero .ea-btn:hover { transform: translateY(-1px); }
 @media (max-width: 760px) {
   .ea-hero-h1 { font-size: clamp(36px, 11vw, 56px) !important; }
+}
+
+/* ── Brand mark + wordmark (nav) ───────────────────────────── */
+.ea-brand-wordmark { position: relative; display: inline-block; }
+.ea-brand-latin,
+.ea-brand-jp {
+  display: inline-block;
+  transition: opacity 0.32s cubic-bezier(.2,.7,.2,1), transform 0.32s cubic-bezier(.2,.7,.2,1);
+}
+.ea-brand-jp {
+  position: absolute;
+  left: 0; top: 0;
+  font-family: 'Inter', system-ui, sans-serif; /* falls back; renders Japanese via system fonts */
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(2px);
+  pointer-events: none;
+}
+.ea-brand:hover .ea-brand-latin {
+  opacity: 0;
+  transform: translateY(-2px);
+}
+.ea-brand:hover .ea-brand-jp {
+  opacity: 1;
+  transform: translateY(0);
+}
+.ea-brand-mark {
+  transition: border-color 0.2s, background 0.2s;
+}
+.ea-brand:hover .ea-brand-mark {
+  border-color: var(--accent);
+  background: color-mix(in oklab, var(--accent) 10%, transparent);
+}
+
+/* ── Work entry company logo tile ─────────────────────────── */
+.ea-work-logo {
+  background: #fff !important;
+  padding: 4px;
+  border-color: var(--rule-strong) !important;
+}
+
+/* ── CV button in nav ─────────────────────────────────────── */
+@media (max-width: 760px) {
+  .ea-cv-btn { display: none !important; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -17,6 +17,7 @@ const RESUME = {
     {
       id: "epicor-pd",
       company: "Epicor Software",
+      logo: "assets/epicor-logo.png",
       location: "Monterrey, MX",
       role_key: "role_epicor_pd",
       start: "2023-01",
@@ -27,6 +28,7 @@ const RESUME = {
     {
       id: "hoffmann",
       company: "Hoffmann Group",
+      logo: "assets/hoffmann-logo.jpg",
       location: "Munich, DE",
       role_key: "role_hoffmann",
       start: "2022-04",
@@ -37,6 +39,7 @@ const RESUME = {
     {
       id: "epicor-intern",
       company: "Epicor Software",
+      logo: "assets/epicor-logo.png",
       location: "Monterrey, MX",
       role_key: "role_epicor_intern",
       start: "2021-06",
@@ -180,6 +183,7 @@ const I18N = {
     work_e: "Work",
 	work_h: "Experience",
     work_present: "Present",
+    work_current: "Current",
     role_epicor_pd: "Product Developer",
     role_hoffmann: "Software Developer & Test Intern",
     role_epicor_intern: "Software Developer Intern",
@@ -277,6 +281,7 @@ const I18N = {
     work_e: "Trabajo",
     work_h: "Experiencia",
     work_present: "Actualidad",
+    work_current: "Actual",
     role_epicor_pd: "Product Developer",
     role_hoffmann: "Software Developer & Test Intern",
     role_epicor_intern: "Software Developer Intern",
@@ -367,6 +372,7 @@ const I18N = {
     work_e: "Arbeit",
     work_h: "Berufserfahrung",
     work_present: "Heute",
+    work_current: "Aktuell",
     role_epicor_pd: "Product Developer",
     role_hoffmann: "Software Developer & Test Intern",
     role_epicor_intern: "Software Developer Intern",

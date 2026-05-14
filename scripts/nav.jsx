@@ -27,22 +27,39 @@ function Nav({ t, lang, setLang, themeKey, motion }) {
         display: "flex", alignItems: "center", justifyContent: "space-between",
         padding: "14px 0", gap: 16,
       }}>
-        <a href="#top" style={{
-          display: "inline-flex", alignItems: "center", gap: 10,
+        <a href="#top" className="ea-brand" style={{
+          display: "inline-flex", alignItems: "center", gap: 12,
           textDecoration: "none", color: "var(--ink)",
         }}>
-          <span aria-hidden="true" style={{
-            width: 22, height: 22, borderRadius: themeKey === "engineering" ? 4 : 99,
-            background: "var(--ink)", color: "var(--bg)",
+          {/* Mark: angular-bracketed monogram, mono-styled to read "developer" */}
+          <span aria-hidden="true" className="ea-brand-mark" style={{
             display: "inline-flex", alignItems: "center", justifyContent: "center",
-            fontFamily: "var(--font-display)", fontWeight: 600, fontSize: 11,
-            letterSpacing: 0,
-          }}>EA</span>
-          <span style={{
+            height: 26, padding: "0 6px",
+            borderRadius: 6,
+            border: "1px solid var(--rule-strong)",
+            background: "color-mix(in oklab, var(--ink) 8%, transparent)",
+            fontFamily: "var(--font-mono)",
+            fontSize: 12, fontWeight: 600,
+            letterSpacing: "0.02em",
+            color: "var(--ink)",
+            lineHeight: 1,
+          }}>
+            <span style={{ color: "var(--ink-muted)" }}>&lt;</span>
+            <span>EA</span>
+            <span style={{ color: "var(--ink-muted)" }}>/&gt;</span>
+          </span>
+          {/* Wordmark: cross-fades to the Japanese reading on hover */}
+          <span className="ea-brand-wordmark" style={{
+            position: "relative",
+            display: "inline-block",
             fontFamily: "var(--font-display)",
             fontWeight: "var(--display-weight)",
             fontSize: 15, letterSpacing: "var(--display-tracking)",
-          }}>Eiram Araujo</span>
+            lineHeight: 1.2,
+          }}>
+            <span className="ea-brand-latin">Eiram Araujo</span>
+            <span className="ea-brand-jp" aria-hidden="true">エイラム アラウホ</span>
+          </span>
         </a>
         <div className="ea-nav-links" style={{ display: "flex", gap: 22, alignItems: "center" }}>
           <NavLink href="#about">{t.nav_about}</NavLink>
@@ -50,6 +67,25 @@ function Nav({ t, lang, setLang, themeKey, motion }) {
           <NavLink href="#projects">{t.nav_projects}</NavLink>
           <NavLink href="#voices">{t.nav_voices}</NavLink>
           <NavLink href="#contact">{t.nav_contact}</NavLink>
+          <a href="#contact" className="ea-cv-btn" style={{
+            display: "inline-flex", alignItems: "center", gap: 6,
+            padding: "6px 12px", borderRadius: 99,
+            border: "1px solid var(--accent-warm-soft, rgba(245,162,93,0.35))",
+            background: "var(--accent-warm-bg, rgba(245,162,93,0.08))",
+            color: "var(--accent-warm, #f5a25d)",
+            fontFamily: "var(--font-mono)", fontSize: 11,
+            letterSpacing: "0.06em",
+            textDecoration: "none",
+            transition: "background .18s, transform .18s",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = "var(--accent-warm-bg-hover, rgba(245,162,93,0.16))";
+            e.currentTarget.style.transform = "translateY(-1px)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = "var(--accent-warm-bg, rgba(245,162,93,0.08))";
+            e.currentTarget.style.transform = "none";
+          }}>↓ CV</a>
           <LangSwitch lang={lang} setLang={setLang} />
         </div>
         <div className="ea-nav-mobile" style={{ display: "none" }}>
