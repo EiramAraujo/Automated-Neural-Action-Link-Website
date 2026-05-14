@@ -143,7 +143,7 @@ function ResumeApp({ themeKey: themeProp, lang: langProp, setLang: setLangProp, 
       <a href="#main" className="ea-skip">{t.skip_link}</a>
       <Nav t={t} lang={lang} setLang={setLang} themeKey={themeKey} motion={motion} />
       <main id="main">
-        <window.HeroBlock t={t} themeKey={themeKey} motion={motion} lang={lang} setLang={setLang} />
+        <window.HeroBlock t={t} themeKey={themeKey} motion={motion} lang={lang} setLang={setLang} accent={accent} />
         <window.QuickFacts t={t} motion={motion} />
         <window.About t={t} motion={motion} />
         <window.Work t={t} motion={motion} lang={lang} themeKey={themeKey} />

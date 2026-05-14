@@ -150,8 +150,209 @@ function SectionHeader({ eyebrow, title, lede, motion }) {
 }
 
 // ─────────────────────────────────────────────────────────────
-// Hero — variant by theme
+// Hero — full-bleed dark, animated abstract code/data flow.
+// Background is a layered canvas (network of nodes + traveling
+// data packets + drifting code fragments) over a gradient mesh
+// and faint grid, with a vignette to keep text readable.
 // ─────────────────────────────────────────────────────────────
+function HeroBackground({ motion, accent = "#7cb6ff" }) {
+  const canvasRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const animOff = motion === "off" || reduced;
+
+    let W = 0, H = 0, raf = 0, t0 = performance.now();
+
+    const resize = () => {
+      const rect = canvas.getBoundingClientRect();
+      W = Math.max(1, rect.width);
+      H = Math.max(1, rect.height);
+      canvas.width  = Math.floor(W * dpr);
+      canvas.height = Math.floor(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    resize();
+    window.addEventListener("resize", resize);
+
+    // Convert hex accent to "r,g,b" for rgba()
+    const hex = accent.replace("#", "");
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+    const rgb = `${r},${g},${b}`;
+
+    // Network nodes — drift slowly, connect when close.
+    const targetCount = Math.min(90, Math.max(34, Math.floor((W * H) / 22000)));
+    const nodes = Array.from({ length: targetCount }, () => ({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.18,
+      vy: (Math.random() - 0.5) * 0.18,
+      r: Math.random() * 1.3 + 0.5,
+    }));
+
+    // Data packets travel along edges.
+    const packets = [];
+
+    // Drifting code/firmware/SQL fragments — abstract "data flow".
+    const CODE_LINES = [
+      "const ship = (work) => work.refine().deploy()",
+      "git rebase -i origin/main",
+      "docker compose up -d --build",
+      "kubectl rollout status deploy/api",
+      "SELECT id, name FROM users WHERE active = 1",
+      "await fetch('/api/v2/health')",
+      "0x7B 0x40 0x10 0x4E 0x8C 0xA3 0xF2 0x9C",
+      "[INFO] 142 modules · 0 errors · 1.84s",
+      "if (errors.length === 0) return ok()",
+      "function scale(n) { return n * Math.SQRT2 }",
+      "@Override public void run() { pipeline.tick(); }",
+      "export default class Pipeline extends EventEmitter",
+      "LPUART_Transmit(handle, buf, len, 0xFFFF)",
+      "git push origin feat/motion-primitives",
+      "npm run build && npm test -- --ci",
+      "curl -X POST https://api/deploy --data @ship.json",
+      "ssh deploy@prod-01 'systemctl restart worker'",
+      "POST /v1/commits  201 Created  · 38ms",
+      "// ship · document · scale",
+    ];
+    const codeDrifts = Array.from({ length: 10 }, (_, i) => ({
+      text: CODE_LINES[Math.floor(Math.random() * CODE_LINES.length)],
+      x: Math.random() * W,
+      y: (i / 10) * H + Math.random() * 40,
+      vy: -(Math.random() * 0.18 + 0.08),
+      opacity: Math.random() * 0.10 + 0.05,
+    }));
+
+    const LINK_DIST_SQ = 22000; // px²; max distance² to draw an edge
+    const SPAWN_PROB   = 0.05;  // per-frame chance a new packet spawns
+
+    const drawFrame = (now) => {
+      const dt = Math.min(40, now - t0); t0 = now;
+      const f = animOff ? 0 : dt / 16.67; // unit = 1 frame @60fps
+
+      ctx.clearRect(0, 0, W, H);
+
+      // --- Drifting code fragments (behind network) ---
+      ctx.font = "12px 'JetBrains Mono', ui-monospace, Menlo, monospace";
+      for (const c of codeDrifts) {
+        c.y += c.vy * f;
+        if (c.y < -20) {
+          c.y = H + 20;
+          c.x = Math.random() * W;
+          c.text = CODE_LINES[Math.floor(Math.random() * CODE_LINES.length)];
+          c.opacity = Math.random() * 0.10 + 0.05;
+        }
+        ctx.fillStyle = `rgba(${rgb},${c.opacity})`;
+        ctx.fillText(c.text, c.x, c.y);
+      }
+
+      // --- Update node positions ---
+      for (const p of nodes) {
+        p.x += p.vx * f;
+        p.y += p.vy * f;
+        if (p.x < -10) p.x = W + 10; else if (p.x > W + 10) p.x = -10;
+        if (p.y < -10) p.y = H + 10; else if (p.y > H + 10) p.y = -10;
+      }
+
+      // --- Edges (proximity links) ---
+      ctx.lineWidth = 1;
+      for (let i = 0; i < nodes.length; i++) {
+        const a = nodes[i];
+        for (let j = i + 1; j < nodes.length; j++) {
+          const bN = nodes[j];
+          const dx = a.x - bN.x, dy = a.y - bN.y;
+          const d2 = dx * dx + dy * dy;
+          if (d2 < LINK_DIST_SQ) {
+            const alpha = (1 - d2 / LINK_DIST_SQ) * 0.38;
+            ctx.strokeStyle = `rgba(${rgb},${alpha})`;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(bN.x, bN.y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // --- Nodes ---
+      for (const p of nodes) {
+        ctx.fillStyle = "rgba(238,240,243,0.85)";
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // --- Spawn packets along close pairs ---
+      if (!animOff && Math.random() < SPAWN_PROB && packets.length < 18) {
+        const aN = nodes[Math.floor(Math.random() * nodes.length)];
+        let best = null, bestD = Infinity;
+        for (const p of nodes) {
+          if (p === aN) continue;
+          const dx = aN.x - p.x, dy = aN.y - p.y;
+          const d = dx * dx + dy * dy;
+          if (d < bestD && d < LINK_DIST_SQ) { bestD = d; best = p; }
+        }
+        if (best) packets.push({ a: aN, b: best, t: 0, speed: 0.012 + Math.random() * 0.02 });
+      }
+
+      // --- Packets ---
+      for (let i = packets.length - 1; i >= 0; i--) {
+        const k = packets[i];
+        k.t += k.speed * f;
+        if (k.t >= 1) { packets.splice(i, 1); continue; }
+        const x = k.a.x + (k.b.x - k.a.x) * k.t;
+        const y = k.a.y + (k.b.y - k.a.y) * k.t;
+        // soft halo
+        const grd = ctx.createRadialGradient(x, y, 0, x, y, 14);
+        grd.addColorStop(0, `rgba(${rgb},0.55)`);
+        grd.addColorStop(1, `rgba(${rgb},0)`);
+        ctx.fillStyle = grd;
+        ctx.beginPath();
+        ctx.arc(x, y, 14, 0, Math.PI * 2);
+        ctx.fill();
+        // core
+        ctx.fillStyle = `rgba(${rgb},1)`;
+        ctx.beginPath();
+        ctx.arc(x, y, 2.2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      if (!animOff) raf = requestAnimationFrame(drawFrame);
+    };
+
+    if (animOff) {
+      // one static frame so the bg isn't empty
+      drawFrame(performance.now());
+    } else {
+      raf = requestAnimationFrame(drawFrame);
+    }
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", resize);
+    };
+  }, [motion, accent]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      aria-hidden="true"
+      style={{
+        position: "absolute", inset: 0,
+        width: "100%", height: "100%",
+        display: "block",
+      }}
+    />
+  );
+}
+
+// Legacy single-svg variant kept around in case some external
+// link still references it; not rendered by the new Hero.
 function HeroAnimation({ themeKey, motion }) {
   // Dev-themed hero accents — code, commits, terminals — themed per variant
   // so layout stays stable but personality differs.
@@ -311,64 +512,181 @@ function HeroAnimation({ themeKey, motion }) {
   );
 }
 
-function Hero({ t, themeKey, motion, lang, setLang }) {
+function Hero({ t, themeKey, motion, lang, setLang, accent }) {
+  // Use the live accent (from Tweaks) if available, otherwise the dark default.
+  const accentColor = accent || "#7cb6ff";
+
   return (
-    <section id="top" style={{
-      paddingTop: "clamp(40px, 9vw, 110px)",
-      paddingBottom: "clamp(40px, 8vw, 90px)",
+    <section id="top" className="ea-hero" style={{
+      position: "relative",
+      minHeight: "min(92vh, 920px)",
+      display: "flex",
+      alignItems: "center",
+      overflow: "hidden",
       borderBottom: "1px solid var(--rule)",
+      // Deep dark base + accent halos (independent of theme so the
+      // hero stays moody even if the user tweaks accent later).
+      background: `
+        radial-gradient(1100px 600px at 78% 18%, ${accentColor}1a, transparent 65%),
+        radial-gradient(900px 700px at 8% 88%, ${accentColor}10, transparent 60%),
+        linear-gradient(180deg, #06080c 0%, #0a0d12 60%, #0b0e13 100%)
+      `,
     }}>
-      <div className="ea-grid">
-        <div className="ea-hero-text">
-          <Reveal motion={motion} delay={80}>
-            <h1 style={{
+      {/* Faint dotted/grid lattice */}
+      <div aria-hidden="true" className="ea-hero-grid" />
+
+      {/* Animated network + drifting code */}
+      <HeroBackground motion={motion} accent={accentColor} />
+
+      {/* Vignette to push focus to the headline */}
+      <div aria-hidden="true" style={{
+        position: "absolute", inset: 0, pointerEvents: "none",
+        background:
+          "radial-gradient(ellipse 75% 60% at 50% 55%, transparent 0%, rgba(6,8,12,0.55) 65%, rgba(6,8,12,0.92) 100%)",
+      }} />
+
+      {/* Content */}
+      <div className="ea-row" style={{
+        position: "relative",
+        zIndex: 2,
+        width: "100%",
+        paddingTop: "clamp(110px, 16vw, 180px)",
+        paddingBottom: "clamp(80px, 12vw, 140px)",
+      }}>
+        <div style={{ maxWidth: 980 }}>
+          {/* Eyebrow status chip */}
+          <Reveal motion={motion} delay={40}>
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: 10,
+              padding: "6px 14px 6px 10px",
+              borderRadius: 99,
+              border: `1px solid ${accentColor}40`,
+              background: `${accentColor}10`,
+              fontFamily: "var(--font-mono)",
+              fontSize: 12,
+              color: "#cfd6e2",
+              letterSpacing: "0.04em",
+              marginBottom: 28,
+              backdropFilter: "blur(4px)",
+              WebkitBackdropFilter: "blur(4px)",
+            }}>
+              <span aria-hidden="true" style={{
+                width: 8, height: 8, borderRadius: 99,
+                background: accentColor,
+                boxShadow: `0 0 12px ${accentColor}`,
+                animation: motion === "off" ? "none" : "eaPulse 2.2s ease-out infinite",
+              }} />
+              {t.role_title} · {t.hero_eyebrow_status || "Open to roles"}
+            </div>
+          </Reveal>
+
+          {/* Headline */}
+          <Reveal motion={motion} delay={120}>
+            <h1 className="ea-hero-h1" style={{
               fontFamily: "var(--font-display)",
               fontWeight: "var(--display-weight)",
               letterSpacing: "var(--display-tracking)",
-              fontSize: "clamp(40px, 7vw, 84px)",
-              lineHeight: 1.02,
-              margin: "22px 0 26px 0",
-              color: "var(--ink)",
+              fontSize: "clamp(44px, 8.4vw, 108px)",
+              lineHeight: 0.98,
+              margin: "0 0 28px 0",
+              color: "#f6f8fb",
               textWrap: "balance",
             }}>
               {t.hero_h1_a}
-              <em style={{
-                fontStyle: themeKey === "editorial" ? "italic" : "normal",
-                color: "var(--accent)",
-                fontWeight: themeKey === "engineering" ? 600 : "inherit",
-                textDecoration: themeKey === "engineering" ? "underline" : "none",
-                textDecorationThickness: 2,
-                textUnderlineOffset: 6,
-              }}>{t.hero_h1_b}</em>
+              <span style={{
+                position: "relative",
+                color: accentColor,
+                whiteSpace: "nowrap",
+                textShadow: `0 0 28px ${accentColor}55`,
+              }}>
+                {t.hero_h1_b}
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 220 14"
+                  preserveAspectRatio="none"
+                  style={{
+                    position: "absolute",
+                    left: 0, right: 0, bottom: "-0.18em",
+                    width: "100%", height: "0.32em",
+                    overflow: "visible",
+                  }}
+                >
+                  <path
+                    d="M2 9 C 40 2, 90 12, 130 6 S 200 2, 218 8"
+                    fill="none"
+                    stroke={accentColor}
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    style={{
+                      strokeDasharray: 260,
+                      strokeDashoffset: motion === "off" ? 0 : 260,
+                      animation: motion === "off"
+                        ? "none"
+                        : "eaDraw 1.6s 0.7s cubic-bezier(.2,.7,.2,1) forwards",
+                      filter: `drop-shadow(0 0 6px ${accentColor}aa)`,
+                    }}
+                  />
+                </svg>
+              </span>
               {t.hero_h1_c}
             </h1>
           </Reveal>
-          <Reveal motion={motion} delay={160}>
+
+          {/* Lede */}
+          <Reveal motion={motion} delay={200}>
             <p style={{
-              maxWidth: 580, color: "var(--ink-soft)",
-              fontSize: 18, lineHeight: 1.55, margin: "0 0 32px 0",
+              maxWidth: 640,
+              color: "#bfc7d4",
+              fontSize: "clamp(16px, 1.4vw, 19px)",
+              lineHeight: 1.6,
+              margin: "0 0 36px 0",
+              textWrap: "pretty",
             }}>{t.hero_lede}</p>
           </Reveal>
-          <Reveal motion={motion} delay={240}>
-            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-              <a href="#work" className="ea-btn ea-btn-primary">{t.hero_cta_work} <Arrow /></a>
+
+          {/* CTAs */}
+          <Reveal motion={motion} delay={280}>
+            <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+              <a
+                href="#work"
+                className="ea-btn"
+                style={{
+                  background: "#f6f8fb",
+                  color: "#0a0c10",
+                  boxShadow: `0 8px 32px -10px ${accentColor}88, 0 1px 0 rgba(255,255,255,0.08) inset`,
+                }}
+              >{t.hero_cta_work} <Arrow /></a>
+              <a
+                href="#contact"
+                className="ea-btn"
+                style={{
+                  background: "transparent",
+                  color: "#e6ebf2",
+                  border: "1px solid rgba(255,255,255,0.18)",
+                }}
+              >{t.hero_cta_contact || (lang === "es" ? "Contacto" : lang === "de" ? "Kontakt" : "Get in touch")}</a>
             </div>
           </Reveal>
         </div>
-        <div className="ea-hero-aside">
-          <Reveal motion={motion} delay={120}>
-            <div style={{
-              aspectRatio: "1 / 1",
-              borderRadius: themeKey === "editorial" ? "50%" : 16,
-              border: "1px solid var(--rule)",
-              background: "var(--bg-alt)",
-              overflow: "hidden",
-              position: "relative",
-            }}>
-              <HeroAnimation themeKey={themeKey} motion={motion} />
-            </div>
-          </Reveal>
-        </div>
+      </div>
+
+      {/* Scroll hint */}
+      <div aria-hidden="true" style={{
+        position: "absolute",
+        left: "50%", bottom: 28,
+        transform: "translateX(-50%)",
+        display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
+        fontFamily: "var(--font-mono)",
+        fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase",
+        color: "rgba(238,240,243,0.45)",
+        zIndex: 2,
+      }}>
+        <span>scroll</span>
+        <span style={{
+          width: 1, height: 36,
+          background: `linear-gradient(to bottom, ${accentColor}, transparent)`,
+          animation: motion === "off" ? "none" : "eaScrollHint 2.2s ease-in-out infinite",
+        }} />
       </div>
     </section>
   );

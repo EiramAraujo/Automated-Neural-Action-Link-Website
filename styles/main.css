@@ -89,6 +89,33 @@ body {
   0%   { r: 5;  opacity: 1; }
   100% { r: 14; opacity: 0; }
 }
+@keyframes eaScrollHint {
+  0%   { transform: scaleY(0.2); transform-origin: top;    opacity: 0.2; }
+  45%  { transform: scaleY(1);   transform-origin: top;    opacity: 0.9; }
+  55%  { transform: scaleY(1);   transform-origin: bottom; opacity: 0.9; }
+  100% { transform: scaleY(0.2); transform-origin: bottom; opacity: 0.2; }
+}
+
+/* ── Hero (full-bleed dark) ───────────────────────────────── */
+.ea-hero {
+  /* Keep the hero locally dark even if a lighter theme is active. */
+  color-scheme: dark;
+}
+.ea-hero-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 50%, rgba(0,0,0,0.95), transparent 78%);
+          mask-image: radial-gradient(ellipse 75% 65% at 50% 50%, rgba(0,0,0,0.95), transparent 78%);
+}
+.ea-hero .ea-btn:hover { transform: translateY(-1px); }
+@media (max-width: 760px) {
+  .ea-hero-h1 { font-size: clamp(36px, 11vw, 56px) !important; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
